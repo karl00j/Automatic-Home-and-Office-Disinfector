@@ -1,28 +1,28 @@
 #include <LiquidCrystal.h>
-LiquidCrystal lcd(1, 2, 3, 4, 5, 6);
+LiquidCrystal lcd(A0, A1, A2, A3, A4, A5);
 
 //for first Ultrasonic sensor
-const int trigPin = 8;
-const int echoPin = 9;
+const int trigPin = 7;
+const int echoPin = 6;
 
 //for second Ultrasonic sensor
-const int trigPin1 = 10;
-const int echoPin1 = 11;
+const int trigPin1 = 5;
+const int echoPin1 = 4;
 
 //for addition button
-const int pushButton = 22;
+const int pushButton = 2;
 int buttonRead = 0;
 
 //for subtraction button
-const int pushButton1 = 24;
+const int pushButton1 = 3;
 int buttonRead1 = 0;
 
 //for buzzer
-const int buzzer = 26;
+const int buzzer = 10;
 
-const int led = 30;
-const int led1 = 32;
-const int output = 52;
+const int led = 9;
+const int led1 = 8;
+const int output = 11;
 
 
 
@@ -35,11 +35,11 @@ class RoomDisinfector{
       int duration, distance;
       digitalWrite(trigPin, LOW);
       delayMicroseconds(2);
-      
+
       digitalWrite(trigPin, HIGH);
       delayMicroseconds(10);
       digitalWrite(trigPin, LOW);
-      
+
       duration = pulseIn(echoPin, HIGH);
       distance = (duration*0.034)/2;
 
@@ -57,7 +57,7 @@ class RoomDisinfector{
       int val=0;
       digitalWrite(trigPin1, LOW);
       delayMicroseconds(2);
-      
+
       digitalWrite(trigPin1, HIGH);
       delayMicroseconds(10);
       digitalWrite(trigPin1, LOW);
@@ -71,7 +71,7 @@ class RoomDisinfector{
           delay(500);
           digitalWrite(led1, LOW);
         }
-     
+
       buttonRead = digitalRead(pushButton);
       buttonRead1 = digitalRead(pushButton1);
 
@@ -95,7 +95,7 @@ class RoomDisinfector{
       tone(buzzer, 450);
       delay(3000);
       noTone(buzzer);
-      
+
     }
 
     void lcdDisplay(int passedVal, int passedVal1){
@@ -104,19 +104,19 @@ class RoomDisinfector{
 
      Serial.print("Outgoing: ");
      Serial.println(passedVal1);
-     
+
      lcd.setCursor(12, 0);
      lcd.print(passedVal);
      lcd.setCursor(10, 1);
      lcd.print(passedVal1);
-     
-     
-     
+
+
+
      }
-  
 
 
-  
+
+
 };
 
 
@@ -144,16 +144,17 @@ void setup() {
 void loop() {
   int count = 0;
   RoomDisinfector r;
-  
+
   int temp, temp1;
   temp = r.incomingGuests(count);
   temp1 = r.outgoingGuests();
 
   r.lcdDisplay(temp, temp1);
-  
+
   if(temp <= temp1){
     r.alarm();
     delay(300000);
     digitalWrite(output, HIGH);
+    count = 0;
   }
 }
