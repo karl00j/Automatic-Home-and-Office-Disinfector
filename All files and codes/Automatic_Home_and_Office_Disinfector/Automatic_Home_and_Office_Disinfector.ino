@@ -2,7 +2,6 @@
 LiquidCrystal lcd(A0, A1, A2, A3, A4, A5);
 
 //for first Ultrasonic sensor
-const int trigPin = 8;
 const int trigPin = 7;
 const int echoPin = 6;
 
@@ -100,11 +99,6 @@ class RoomDisinfector{
     }
 
     void lcdDisplay(int passedVal, int passedVal1){
-     Serial.print("Incoming: ");
-     Serial.println(passedVal);
-
-     Serial.print("Outgoing: ");
-     Serial.println(passedVal1);
 
      lcd.setCursor(12, 0);
      lcd.print(passedVal);
@@ -156,6 +150,7 @@ void loop() {
     r.alarm();
     delay(300000);
     digitalWrite(output, HIGH);
+    Serial.println(temp);
     count = 0;
   }
 }
